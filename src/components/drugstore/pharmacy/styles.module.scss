@@ -1,0 +1,110 @@
+.inputPlaceholder {
+  color: black;
+}
+
+.inputPlaceholder::-moz-placeholder {
+  color: black
+}
+
+.paperDonHangWrapper {
+  height: 200px;
+  border-radius: 10px 10px 0px 0px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  background: rgba(255, 255, 255, 1);
+  overflow-y: auto;
+
+  .paperContent {
+    height: 100%;
+    border-radius: 10px;
+    padding: 8px;
+    display: flex;
+    justify-content: space-between;
+
+    .boxContent {
+      .donHangTitle {
+        font-weight: 700;
+        font-size: 1rem;
+        line-height: 20px;
+        letter-spacing: 0.15px;
+      }
+
+      .donHangText {
+        font-size: 0.8rem;
+        line-height: 20px;
+        letter-spacing: 0.15px;
+      }
+    }
+  }
+}
+
+.tinhTienTitle {
+
+  display: flex;
+  font-size: 1rem;
+  min-width: 100px;
+}
+
+.paperTinhTienWrapper {
+  width: 100%;
+  background: linear-gradient(0deg, #FFFFFF, #FFFFFF),
+    linear-gradient(0deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2));
+  display: flex;
+  justify-content: right;
+  // padding: 6px;
+
+
+
+  .boxContentTinhTien {
+    display: flex;
+    width: 45%;
+    flex-direction: column;
+    gap: 5px;
+
+    .tinhTienTitle {
+      width: 150px;
+
+      font-size: 1rem;
+    }
+
+    .tinhTienTitle1 {
+      width: 100px;
+
+      font-size: 1rem;
+    }
+  }
+
+
+
+}
+
+.buttonItem {
+  text-align: center;
+  height: 80px;
+
+  .buttonTitle {
+    font-weight: 500;
+    font-size: 0.7rem;
+    line-height: 26px;
+    letter-spacing: 0.46px;
+  }
+}
+
+
+
+// Right-Bar
+.cardWrapper {
+
+  .cardContent {
+    .title {
+
+      font-size: 10px;
+      line-height: 20px;
+      letter-spacing: 0.15px;
+      color: linear-gradient(0deg, #0292B1, #0292B1),
+        linear-gradient(0deg, rgba(50, 71, 92, 0.87), rgba(50, 71, 92, 0.87));
+
+    }
+  }
+}

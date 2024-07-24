@@ -1,0 +1,81 @@
+export interface ExpandedCardState {
+  [key: string]: boolean
+}
+export interface Examination {
+  appointmentTypeId?: string | null
+  gender?: number | null
+  dob?: Date | null
+  age?: number | null
+  monthsOld?: number | null
+  patId?: string | null
+  year?: number | null
+  email?: string | null
+  phone?: string | null
+  appointmentDate?: string | null
+  reasonExam?: string | null
+  scheduleContent?: string | null
+  receptionistId?: string | null
+  presenterId?: string | null
+  doctorId?: string | null
+  patName?: string | null
+  parentName?: string | null
+  relationshipId?: string | null
+  parentPhone?: string | null
+  patCccd?: string | null
+  address?: string | null
+  patGroup?: string | null
+  body?: string | null
+  part?: string | null
+  medHistory?: string | null
+  personalMedHistory?: string | null
+  familyMedHistory?: string | null
+  otherDisease?: string | null
+  personalAllergicHistory?: string | null
+  familyAllergicHistory?: string | null
+  paulse?: number | null
+  breathingRate?: number | null
+  temperature?: number | null
+  bp1?: number | null
+  bp2?: number | null
+  weight?: number | null
+  height?: number | null
+  bmi?: number | null
+  patGroupId?: string | null
+  departmentId?: string | null
+  oldPlaceTreatmentId?: string | null
+  startDate?: Date | null
+  endDate?: Date | null
+  fiveYearFullDate?: Date | null
+  exploreObjectsId?: string | null
+  patBhyt?: string | null
+  benefitLevelId?: string | null
+  glandTypeId?: string | null
+  areaId?: string | null
+  fromInsuranceId?: string | null
+  swElseComeId?: string | null
+  fristDayofLastPeriod?: string | null
+  dateOfConception?: string | null
+  id?: string | null
+}
+export interface RegisterAppointmentExamination {
+  age?: number | null
+  appointmentDate?: Date | null
+  appointmentTypeId?: string | null
+  clinicId?: string | null
+  dob?: Date | null
+  doctorId?: string | null
+  email?: string | null
+  gender?: number | null
+  monthsOld?: number | null
+  note?: string | null
+  parentClinicId?: string | null
+  patId?: string | null
+  patName?: string | null
+  phone?: string | null
+  presenterId?: string | null
+  reasonExam?: string | null
+  receptionistId?: string | null
+  scheduleContent?: string | null
+  year?: number | null
+  // address?: string | null
+}

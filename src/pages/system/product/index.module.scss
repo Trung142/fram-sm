@@ -1,0 +1,30 @@
+.container{
+    background-color: rgba(2, 146, 177, 0.95);
+    width: 100%;
+    border-radius: 0px!important
+  }
+  .container > Button {
+    color: #fff;
+    &:hover {
+      background-color: #fff;
+      color: rgba(2, 146, 177, 0.95);
+    }
+  }
+  .buttonseconhand {
+    background-color: #55A629;
+    margin-top: 25px;
+    height: fit-content;
+  }
+  .buttonseconhand > Button {
+    color: #fff;
+  }
+  .cardheader{
+    justify-content: right;
+    display: flex;
+  }
+  .container > Menu {
+    margin: 0;
+    padding: 0;
+    background-color: #55A629;
+  }
+  

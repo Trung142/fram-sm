@@ -1,0 +1,38 @@
+.statusActive {
+    background-color: #26F9A01F;
+    color: #67C932;
+    border-radius: 10px;
+    padding-left: 8px;
+    padding-right: 8px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    border: 1px solid #67C932;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+.statusPause {
+    background-color: #FF4D491F;
+    color: #FF3E1D;
+    border-radius: 10px;
+    padding-left: 8px;
+    padding-right: 8px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    border: 1px solid #FF3E1D;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+.headerButton {
+    margin-right: 2rem;
+    margin-left: 2rem;
+}
+.tabdatalist{
+    color: '#fff';
+    margin-left: 4;
+    background-color: 'red';
+    border-radius: '50%';
+    width: '1.5rem';
+    height: '1.5rem';
+}

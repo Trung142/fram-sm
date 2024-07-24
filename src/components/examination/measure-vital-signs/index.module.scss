@@ -1,0 +1,100 @@
+.label {
+  border-radius: 10px;
+  min-width: 40px;
+  padding-left: 8px;
+  padding-right: 8px;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  background-color: #db4437;
+  text-align: center;
+  color: #fff;
+}
+
+.gridHeader {
+  background-color: #0292b1;
+  padding-left: 20px;
+  border-radius: 10px;
+  color: #fff;
+}
+
+.statusComplete {
+  background-color: #26f9a01f;
+  color: #67c932;
+  border-radius: 10px;
+  padding-left: 8px;
+  padding-right: 8px;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  border: 1px solid #67c932;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.statusWaiting {
+  background-color: #b8bab733;
+  color: #646e7a;
+  border-radius: 10px;
+  padding-left: 8px;
+  padding-right: 8px;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  border: 1px solid #646e7a;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.statusPending {
+  background-color: #fdb5281f;
+  color: #ffab00;
+  border-radius: 10px;
+  padding-left: 8px;
+  padding-right: 8px;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  border: 1px solid #ffab00;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.statusExaming {
+  background-color: #26c6f91f;
+  color: #0292b1;
+  border-radius: 10px;
+  padding-left: 8px;
+  padding-right: 8px;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  border: 1px solid #0292b1;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.statusDone {
+  background-color: #666cff1f;
+  color: #6062e8;
+  border-radius: 10px;
+  padding-left: 8px;
+  padding-right: 8px;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  border: 1px solid #6062e8;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.statusCancel {
+  background-color: #ff4d491f;
+  color: #ff3e1d;
+  border-radius: 10px;
+  padding-left: 8px;
+  padding-right: 8px;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  border: 1px solid #ff3e1d;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.hide-default-calendar-icon input[type='date']::-webkit-calendar-picker-indicator {
+  display: none;
+}

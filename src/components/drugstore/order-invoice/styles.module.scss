@@ -1,0 +1,45 @@
+
+.result {
+  border-radius: 5px;
+  padding-left: 8px;
+  padding-right: 8px;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  text-align: center;
+  font-weight: 600;
+}
+
+.approved {
+  background-color: #0292b10d;
+  color: #0292b1;
+  border: 1px solid #0292b180;
+  @extend .result;
+}
+
+.waiting {
+  background-color: #32475c0d;
+  color: #32475c;
+  border: 1px solid #32475c80;
+  @extend .result;
+}
+
+.buy_completed {
+  background-color: #72e1280d;
+  color: #72e128;
+  border: 1px solid #72e12880;
+  @extend .result;
+}
+
+.buy_waiting {
+  background-color: #ff891d0d;
+  color: #ff891d;
+  border: 1px solid #ff891d80;
+  @extend .result;
+}
+
+.buy_delete {
+  background-color: #ff3e1d0d;
+  border: 1px solid #ff3e1d80;
+  color: #ff3e1d;
+  @extend .result;
+}

@@ -1,0 +1,29 @@
+.custom-input {
+  display: flex !important;
+  flex: 1;
+  label + div {
+    flex: 1 !important;
+    overflow: hidden;
+    padding-right: 0 !important;
+  }
+  input,
+  fieldset,
+  .css-6p656c-MuiInputBase-root-MuiOutlinedInput-root {
+    padding-right: 0 !important;
+    padding-top: 0 !important;
+    padding-left: 14px;
+    padding-bottom: 0;
+  }
+}
+.custom-button {
+  flex: 1;
+  border: none;
+  display: block;
+  width: 30px;
+  font-size: 20px;
+  color: #fff;
+  cursor: pointer;
+  &:first-child {
+    border-bottom: 2px solid #fff;
+  }
+}

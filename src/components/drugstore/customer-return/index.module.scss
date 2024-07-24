@@ -1,0 +1,96 @@
+.label {
+  border-radius: 10px;
+  min-width: 40px;
+  padding-left: 8px;
+  padding-right: 8px;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  background-color: #DB4437;
+  text-align: center;
+  color: #fff;
+}
+
+.gridHeader {
+  background-color: #0292B1;
+  padding-left: 20px;
+  border-radius: 10px;
+  color: #fff;
+}
+
+.statusComplete {
+  background-color: #26F9A01F;
+  color: #67C932;
+  border-radius: 10px;
+  padding-left: 8px;
+  padding-right: 8px;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  border: 1px solid #67C932;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.statusWaiting {
+  background-color: #B8BAB733;
+  color: #646E7A;
+  border-radius: 10px;
+  padding-left: 8px;
+  padding-right: 8px;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  border: 1px solid #646E7A;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.statusPending {
+  background-color: #FDB5281F;
+  color: #FFAB00;
+  border-radius: 10px;
+  padding-left: 8px;
+  padding-right: 8px;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  border: 1px solid #FFAB00;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.statusExaming {
+  background-color: #26C6F91F;
+  color: #0292B1;
+  border-radius: 10px;
+  padding-left: 8px;
+  padding-right: 8px;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  border: 1px solid #0292B1;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.statusDone {
+  background-color: #666CFF1F;
+  color: #6062E8;
+  border-radius: 10px;
+  padding-left: 8px;
+  padding-right: 8px;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  border: 1px solid #6062E8;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.statusCancel {
+  background-color: #FF4D491F;
+  color: #FF3E1D;
+  border-radius: 10px;
+  padding-left: 8px;
+  padding-right: 8px;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  border: 1px solid #FF3E1D;
+  text-align: center;
+  text-transform: uppercase;
+}

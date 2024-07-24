@@ -1,0 +1,32 @@
+.result {
+    border-radius: 5px;
+    padding-left: 8px;
+    padding-right: 8px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    text-align: center;
+    font-weight: 600;
+  }
+  
+  .temp {
+    background-color: #0292b10d;
+    color: #0292b1;
+    border: 1px solid #0292b180;
+    @extend .result;
+  }
+  
+  
+  .completed {
+    background-color: #72e1280d;
+    color: #72e128;
+    border: 1px solid #72e12880;
+    @extend .result;
+  }
+  
+  .cancel {
+    background-color: #ff3e1d0d;
+    border: 1px solid #ff3e1d80;
+    color: #ff3e1d;
+    @extend .result;
+  }
+  

@@ -1,0 +1,18 @@
+.searchInput {
+    width: 100%;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+
+}
+
+.liSearch {
+    display: flex;
+    flex-direction: column
+}
+
+.textName {
+    width: 100%;
+    text-align: left;
+    text-transform: uppercase;
+    font-weight: bold
+}
