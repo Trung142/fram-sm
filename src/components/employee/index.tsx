@@ -12,37 +12,92 @@ import {
   Box,
   Button,
   Stack,
-  MenuItem
+  MenuItem,
+  Autocomplete
 } from '@mui/material'
 import Icon from 'src/@core/components/icon'
 import RefreshIcon from '@mui/icons-material/Refresh'
 import { TabList, TabPanel, TabContext } from '@mui/lab'
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { DataGrid, GridColDef } from '@mui/x-data-grid'
 import CreateIcon from '@mui/icons-material/Create'
 import { useRouter } from 'next/navigation'
-import { useQuery } from '@apollo/client'
+import { useMutation, useQuery } from '@apollo/client'
 import { GET_USER_ROLE, GET_ROLE, GET_USER, GET_CLINIC } from './graphql/query'
+import Refresh from '@mui/icons-material/Refresh'
+import { ref } from 'yup'
+import { DELETE_USER } from './graphql/mutation'
+import MUIDialog from 'src/@core/components/dialog'
+import ModalEdit from './modalEdit'
+import { AddEmployeeVariables } from './add/graphql/variables'
+import { status } from 'nprogress'
+import { fi } from 'date-fns/locale'
 
 const colorActive = {
   backgroundColor: '#025061'
+}
+
+type UserType = {
+  keySearch?: string
+  status?: boolean | null
+  skip?: number
+  take?: number
 }
 const Emploryee = () => {
   //hook
   const router = useRouter()
   const [tab, setTab] = useState('all')
-  const [anchorEl, setAnchorEl] = useState(null)
+  const open = useState(false)
   const handleSetTab = (val: string) => {
     setTab(val)
   }
 
+  //tham số tìm kiếm
+  const [paginationModel, setPaginationModel] = useState({
+    page: 0,
+    pageSize: 25
+  })
+
+  const [searchData, setSearchData] = useState<UserType>({
+    keySearch: '',
+    status: null,
+    skip: 0,
+    take: paginationModel.pageSize
+  })
+  const [queryVariables, setQueryVariables] = useState<any>({
+    input: {},
+    skip: searchData.skip,
+    take: searchData.take
+  })
+
+  const productStatus = [
+    {
+      id: true,
+      label: 'Hoạt động'
+    },
+    {
+      id: false,
+      label: 'Tạm dừng'
+    }
+  ]
+  const [keySearch, setKeySearch] = useState('')
+  const handleChangeSearch = (key: string, value: any) => {
+    console.log(key, value)
+    setSearchData({
+      ...searchData,
+      [key]: value
+    })
+  }
+  const handleSearch = () => {
+    refetchUser({ variables: queryVariables })
+  }
   //data gridcoder
   const columns: GridColDef[] = [
     {
       flex: 0.1,
       field: 'index',
       headerName: '#',
-      minWidth: 10,
+      minWidth: 20,
       renderCell: (params: { row: { index?: any } }) => {
         const { index } = params.row
         return <div>{index}</div>
@@ -150,7 +205,7 @@ const Emploryee = () => {
           <IconButton
             title='Xoá'
             onClick={() => {
-              handleDelete(params.row.id)
+              handleDelete(params.row)
             }}
           >
             <Icon icon='bx:trash' fontSize={20} style={{ marginRight: 5, color: 'red' }} type='solid' />
@@ -160,21 +215,9 @@ const Emploryee = () => {
     }
   ]
 
-  //row
-  const getStatusLabel = (statusCode: any) => {
-    const status = 'statusMapping(statusCode, styles)'
-    return status ? '<span className={status.className}>{status.label}</span>' : <></>
-  }
-
-  const handleRowClick = (params: any) => {
-    console.log(params)
-  }
-  const handleDelete = (id: any) => {
-    console.log(id)
-  }
   //data User
 
-  const { data: userData, loading, error } = useQuery(GET_USER, { fetchPolicy: 'network-only' })
+  const { data: userData, loading, error, refetch: refetchUser } = useQuery(GET_USER, { variables: queryVariables })
   const ResUserData: any[] = useMemo(() => {
     return userData?.getUser.items ?? []
   }, [userData])
@@ -194,6 +237,71 @@ const Emploryee = () => {
   const RoleData: any[] = useMemo(() => {
     return dataRole?.getRole.items ?? []
   }, [dataRole])
+  //edit
+
+  const handleRowClick = (params: any) => {
+    console.log(params.row)
+    open[1](true)
+  }
+  //delete user
+  const [deleteUser] = useMutation(DELETE_USER)
+  const handleDelete = async (data: any) => {
+    console.log(data)
+    const datadelete = {
+      id: data?.id
+    }
+    if (window.confirm('Ban co muon xoa khong ?')) {
+      try {
+        console.log(datadelete)
+        // Gọi mutation
+        await deleteUser({ variables: { input: JSON.stringify(datadelete) } })
+        // Sau khi xóa bạn
+        refetchUser()
+      } catch (error) {
+        console.error('Lỗi khi xóa nhan vien:', error)
+      }
+    }
+  }
+  //useEffect search
+  useEffect(() => {
+    const updatedQueryVariables = {
+      input: {
+        status: searchData.status !== null && searchData.status !== undefined ? { eq: searchData.status } : undefined,
+        or: [
+          {
+            userName: {
+              contains: searchData.keySearch
+            }
+          },
+          {
+            id: {
+              contains: searchData.keySearch
+            }
+          },
+          {
+            phone: {
+              contains: searchData.keySearch
+            }
+          },
+          {
+            lastName: {
+              contains: searchData.keySearch
+            }
+          },
+          {
+            fristName: {
+              contains: searchData.keySearch
+            }
+          }
+        ]
+      }
+    }
+    setQueryVariables(updatedQueryVariables)
+  }, [searchData])
+  //
+  useEffect(() => {
+    refetchUser({ variables: queryVariables })
+  }, [refetchUser, queryVariables])
   //add user
   const handleAdd = () => {
     router.push('/system/employee/add')
@@ -231,7 +339,7 @@ const Emploryee = () => {
             />
             <CardContent>
               <Grid container columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-                <Grid item xs={12} sm={5}>
+                <Grid item xs={6} sm={5}>
                   <div style={{ display: 'flex', width: '100%' }}>
                     <TextField
                       label='Nhập từ khoá tìm kiếm'
@@ -249,8 +357,12 @@ const Emploryee = () => {
                           borderBottomRightRadius: '0px'
                         }
                       }}
+                      value={keySearch}
+                      onChange={(e: any) => setKeySearch(e.target.value)}
+                      onBlur={(e: any) => handleChangeSearch('keySearch', e.target.value)}
                     />
                     <Button
+                      onClick={() => handleSearch()}
                       sx={{ borderRadius: 0 }}
                       variant='contained'
                       style={{ backgroundColor: '#0292B1', width: 56, height: 56 }}
@@ -265,6 +377,17 @@ const Emploryee = () => {
                       <RefreshIcon />
                     </Button>
                   </div>
+                </Grid>
+                <Grid item xs={4} md={2}>
+                  <Autocomplete
+                    disablePortal
+                    fullWidth
+                    options={productStatus}
+                    getOptionLabel={option => option.label}
+                    value={productStatus.find((productStatus: any) => productStatus.id === searchData?.status) ?? null}
+                    onChange={(e, value: any) => handleChangeSearch('status', value?.id)}
+                    renderInput={params => <TextField {...params} label='Chọn trạng thái' />}
+                  />
                 </Grid>
               </Grid>
               {/* =============================== MAIN DATA ======================================= */}
@@ -304,95 +427,28 @@ const Emploryee = () => {
                       }
                       value={'all'}
                     />
-                    <Tab
-                      style={tab === 'waiting_examines' ? colorActive : {}}
-                      label={
-                        <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                          <Typography
-                            style={tab === 'waiting_examines' ? colorActive : {}}
-                            sx={{ color: '#fff', display: 'flex', alignItems: 'center' }}
-                          >
-                            HOẠT ĐỘNG
-                          </Typography>
-                          <Typography
-                            sx={{
-                              color: '#fff',
-                              ml: 4,
-                              backgroundColor: 'red',
-                              borderRadius: '50%',
-                              width: '1.5rem',
-                              height: '1.5rem'
-                            }}
-                          >
-                            {ResUserData.filter(item => item.status).length}
-                          </Typography>
-                        </Box>
-                      }
-                      value={'waiting_examines'}
-                    />
-                    <Tab
-                      style={tab === 'waiting_action' ? colorActive : {}}
-                      label={
-                        <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                          <Typography sx={{ color: '#fff', display: 'flex', alignItems: 'center' }}>
-                            TẠM DỪNG
-                          </Typography>
-                          <Typography
-                            sx={{
-                              color: '#fff',
-                              ml: 4,
-                              backgroundColor: 'red',
-                              borderRadius: '50%',
-                              width: '1.5rem',
-                              height: '1.5rem'
-                            }}
-                          >
-                            {ResUserData.filter(item => !item.status).length}
-                          </Typography>
-                        </Box>
-                      }
-                      value={'waiting_action'}
-                    />
                   </TabList>
                   <TabPanel value='all' sx={{ width: '100%', p: 0 }}>
                     <Grid container>
                       <Grid item xs={12}>
                         <DataGrid
                           columns={columns}
-                          rows={ResUserData.map((item, index) => ({ ...item, index: index + 1 }))}
-                          style={{ minHeight: 700 }}
-                          loading={loading}
-                        />
-                      </Grid>
-                    </Grid>
-                  </TabPanel>
-                  <TabPanel value='waiting_examines' sx={{ width: '100%', p: 0 }}>
-                    <Grid container>
-                      <Grid item xs={12}>
-                        <DataGrid
-                          columns={columns}
-                          rows={ResUserData.filter(item => item.status).map((item, index) => ({
+                          rows={ResUserData.map((item, index) => ({
                             ...item,
-                            index: index + 1
+                            index: index + 1 + paginationModel.page * paginationModel.pageSize
                           }))}
-                          loading={loading}
+                          rowCount={userData?.getUsers?.totalCount ?? 0}
+                          paginationModel={paginationModel}
+                          onPaginationModelChange={setPaginationModel}
+                          paginationMode='server'
                           style={{ minHeight: 700 }}
-                        />
-                      </Grid>
-                    </Grid>
-                  </TabPanel>
-                  <TabPanel value='waiting_action' sx={{ width: '100%', p: 0 }}>
-                    <Grid container>
-                      <Grid item xs={12}>
-                        <DataGrid
-                          columns={columns}
-                          rows={ResUserData.filter(item => !item.status).map((item, index) => ({
-                            ...item,
-                            patInfo: '',
-                            index: index + 1
-                          }))}
                           loading={loading}
-                          style={{ minHeight: 700 }}
+                          initialState={{
+                            pagination: {
+                              paginationModel: { page: 0, pageSize: 25 }
+                            }
+                          }}
+                          pageSizeOptions={[5, 10, 25]}
                         />
                       </Grid>
                     </Grid>
@@ -402,6 +458,9 @@ const Emploryee = () => {
             </CardContent>
           </Card>
         </Grid>
+        <MUIDialog open={open} maxWidth='xl'>
+          <ModalEdit open={open} />
+        </MUIDialog>
       </Grid>
     </>
   )

@@ -34,7 +34,11 @@ const Job_Information = (props: Props) => {
           <Grid item xs={4}>
             <TextField
               fullWidth
-              label='CMND hoặc thẻ CCCD'
+              label={
+                <Typography sx={{ fontSize: '0.8rem', fontWeight: 600 }}>
+                  CMND hoặc thẻ CCCD <span style={{ color: 'red' }}>*</span>
+                </Typography>
+              }
               placeholder='CMND hoặc thẻ CCCD'
               autoFocus
               InputLabelProps={{ shrink: true }}

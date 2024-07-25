@@ -1,4 +1,3 @@
-
 import React, { useEffect, useMemo, useState } from 'react'
 import Icon from 'src/@core/components/icon'
 
@@ -13,7 +12,6 @@ import { RequestType, WareHouseType } from './graphql/variables'
 import { GET_WAREHOUSE } from './graphql/query'
 import { UPDATE_WAREHOUSE } from './graphql/mutation'
 
-
 import { useMutation, useQuery } from '@apollo/client'
 import UpdateWareHouse from './updateWareHouse'
 import MUIDialog from 'src/@core/components/dialog'
@@ -22,7 +20,6 @@ import { getLocalstorage } from 'src/utils/localStorageSide'
 const dataUs = getLocalstorage('userData')
 
 const WareHouse = () => {
-
   const openUpdateWH = useState(false)
   const [dialogType, setDialogType] = useState('')
   const [updateData, setUpdateData] = useState<WareHouseType>({
@@ -51,11 +48,15 @@ const WareHouse = () => {
   const [queryVariables, setQueryVariables] = useState<any>({
     input: {},
     skip: searchData.skip,
-    take: searchData.take,
+    take: searchData.take
   })
 
   //lấy data
-  const { data: dataWareHouse, loading: loadingWareHouse, refetch: refetchWareHouse } = useQuery(GET_WAREHOUSE, {
+  const {
+    data: dataWareHouse,
+    loading: loadingWareHouse,
+    refetch: refetchWareHouse
+  } = useQuery(GET_WAREHOUSE, {
     variables: queryVariables
   })
 
@@ -142,7 +143,7 @@ const WareHouse = () => {
     }
   ]
 
-  const handleOpenAddWareHouse = (() => {
+  const handleOpenAddWareHouse = () => {
     openUpdateWH[1](true)
     setUpdateData({
       email: '',
@@ -155,9 +156,9 @@ const WareHouse = () => {
       deleteYn: false
     })
     setDialogType('add')
-  })
+  }
 
-  const handleUpdateWareHouse = ((data: any) => {
+  const handleUpdateWareHouse = (data: any) => {
     openUpdateWH[1](true)
     setUpdateData({
       id: data.id,
@@ -171,7 +172,7 @@ const WareHouse = () => {
       deleteYn: data.deleteYn
     })
     setDialogType('update')
-  })
+  }
 
   const handleChangeSearchKey = (key: any, value: string) => {
     setSearchData({
@@ -180,7 +181,7 @@ const WareHouse = () => {
     })
   }
 
-  const handleDelete = ((data: any) => {
+  const handleDelete = (data: any) => {
     updateWareHouse({
       variables: {
         input: JSON.stringify({
@@ -189,7 +190,7 @@ const WareHouse = () => {
         })
       }
     }).then(refetchWareHouse)
-  })
+  }
 
   const handleSearch = () => {
     refetchWareHouse({ variables: queryVariables })
@@ -215,7 +216,12 @@ const WareHouse = () => {
           <CardHeader
             title='Kho Hàng'
             action={
-              <Button variant='contained' color='primary' sx={{ pl: 5, pr: 8 }} onClick={() => handleOpenAddWareHouse()}>
+              <Button
+                variant='contained'
+                color='primary'
+                sx={{ pl: 5, pr: 8 }}
+                onClick={() => handleOpenAddWareHouse()}
+              >
                 <Icon icon='bx:bx-plus' fontSize={20} style={{ marginRight: 5 }} />
                 Thêm mới
               </Button>
@@ -250,7 +256,9 @@ const WareHouse = () => {
                   <Button
                     variant='contained'
                     color='secondary'
-                    onClick={() => { clearSearch() }}
+                    onClick={() => {
+                      clearSearch()
+                    }}
                   >
                     <Icon icon='bx:revision' fontSize={24} />
                   </Button>
@@ -294,7 +302,6 @@ const WareHouse = () => {
         <UpdateWareHouse open={openUpdateWH} data={updateData} dialogType={dialogType} onSubmit={handleSearch} />
       </MUIDialog>
     </Grid>
-
   )
 }
 

@@ -1,4 +1,4 @@
-import { Grid, Autocomplete, TextField } from '@mui/material'
+import { Grid, Autocomplete, TextField, Typography } from '@mui/material'
 import FormGroup from '@mui/material/FormGroup'
 import FormControlLabel from '@mui/material/FormControlLabel'
 import Checkbox from '@mui/material/Checkbox'
@@ -22,7 +22,7 @@ const Acount_Information = (props: Props) => {
               filterSelectedOptions
               options={DATACLinict?.map((item: any) => item.name)}
               onChange={(e, newvalue) =>
-                handleaddUser('clinicId', DATACLinict?.find((item: any) => item?.name === newvalue).id)
+                handleaddUser('clinicId', DATACLinict?.find((item: any) => item?.name === newvalue)?.id)
               }
               renderInput={params => (
                 <TextField
@@ -37,9 +37,12 @@ const Acount_Information = (props: Props) => {
           <Grid item xs={6}>
             <TextField
               fullWidth
-              label='Mật khẩu'
-              required
-              placeholder='Số lượng con'
+              label={
+                <Typography sx={{ fontSize: '0.8rem', fontWeight: 600 }}>
+                  Mật khẩu<span style={{ color: 'red' }}>*</span>
+                </Typography>
+              }
+              placeholder='Nhập lại Mk'
               autoFocus
               InputLabelProps={{ shrink: true }}
               value={input?.password}

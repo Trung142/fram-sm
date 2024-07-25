@@ -46,3 +46,11 @@ export const ADD_USER_ROLE = gql`
     }
   }
 `
+const DELETE_USER = gql`
+  mutation updateUser($input: String!) {
+    updateUser(data: $input) {
+      id
+      userName
+    }
+  }
+`

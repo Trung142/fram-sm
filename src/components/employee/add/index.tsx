@@ -123,7 +123,7 @@ const AddEmployee = (props: any) => {
   }
   //update
   const [AddEmloyeedata, { data: addData, error: error, loading: loading }] = useMutation(ADD_USER)
-  const [AddUserRoledata] = useMutation(ADD_USER_ROLE)
+  const [AddUserRoledata, { data: addRoleData, error: errorRole, loading: loadingRole }] = useMutation(ADD_USER_ROLE)
   //submmmit
   const onError = useCallback(() => {
     toast.error('loi 500 vui long thu lai')
@@ -145,11 +145,28 @@ const AddEmployee = (props: any) => {
     return result
   }
   const handlesubmmit = useCallback(() => {
-    if (input?.fristName && input?.lastName && input?.email && input?.password) {
-      console.log(inputRole)
+    if (!input?.fristName) {
+      toast.error('Vui long nhap ten')
+      return
+    }
+    if (!input?.lastName) {
+      toast.error('Vui long nhap ho')
+      return
+    }
+    if (!input?.email) {
+      toast.error('Vui long nhap email')
+      return
+    }
+    if (!input?.password) {
+      toast.error('Vui long nhap mat khau')
+      return
+    }
+    if (!input?.userCccd) {
+      toast.error('Vui long nhap cccd')
+      return
+    } else {
       const id = `doc${getRandomInt(15, '202311160000012')}`
       const update = { ...input }
-      let UpdateRole = { ...inputRole }
       const update2 = {
         fristName: update?.fristName,
         lastName: update?.lastName,
@@ -165,33 +182,23 @@ const AddEmployee = (props: any) => {
         userName: `${update?.lastName} ${update?.fristName}`,
         id: id
       }
-      if (inputRole) {
-        const userRoleId = `usr${getRandomInt(15, '202311160000012')}`
-        UpdateRole = {
-          roleId: inputRole?.roleId,
-          id: userRoleId,
-          userId: id,
-          parentClinicId: inputRole?.clinicId,
-          clinicId: inputRole?.clinicId
-        }
-      }
-      console.log('check', UpdateRole)
-      if (id) {
-        if (update2?.userVneid) {
-          AddEmloyeedata({ variables: { input: update2 }, onError, onCompleted })
-          if (inputRole) {
-            AddUserRoledata({ variables: { input: UpdateRole }, onError, onCompleted })
+      if (update2?.userVneid) {
+        AddEmloyeedata({ variables: { input: update2 }, onError, onCompleted })
+        if (inputRole && inputRole?.roleId) {
+          const userRoleId = `usr${getRandomInt(15, '202311160000012')}`
+          const UpdateRole2 = {
+            roleId: inputRole?.roleId,
+            id: userRoleId,
+            userId: id,
+            parentClinicId: inputRole?.clinicId,
+            clinicId: inputRole?.clinicId
           }
-        } else {
-          toast.error('Vui long nhap cccd vne')
+          AddUserRoledata({ variables: { input: UpdateRole2 }, onError, onCompleted })
         }
-      } else {
-        toast.error('errr id')
+        router.push('/system/employee')
       }
-    } else {
-      toast.error('Vui long nhap day du thong tin')
     }
-  }, [AddEmloyeedata, input, inputRole])
+  }, [AddEmloyeedata, input, inputRole, AddUserRoledata])
   return (
     <Grid container sx={{ height: '100%' }}>
       <Card sx={{ width: '100%', height: '100%' }}>
@@ -246,11 +253,11 @@ const AddEmployee = (props: any) => {
                 <ButtonStyled component='label' htmlFor='account-settings-upload-image' sx={{ padding: 0 }}>
                   <img
                     alt='avatar'
+                    src='http://localhost:3000/images/avatars/1.png'
                     style={{
                       width: 100,
                       height: 100,
                       objectFit: 'cover'
-                      // borderRadius: '50%',
                     }}
                   />
                   <input hidden type='file' accept='image/png, image/jpeg' id='account-settings-upload-image' />
@@ -259,15 +266,15 @@ const AddEmployee = (props: any) => {
                 <Box sx={{ pt: 10, width: '100%' }}>
                   <Box sx={{ display: 'flex', alignItems: 'center' }}>
                     <Typography variant='h6'>Mã nhân viên :</Typography>
-                    <span>m01</span>
+                    <span>{}</span>
                   </Box>
                   <Box sx={{ display: 'flex', alignItems: 'center' }}>
                     <Typography variant='h6'>E-mail :</Typography>
-                    <span>m01</span>
+                    <span>{input?.email}</span>
                   </Box>
                   <Box sx={{ display: 'flex', alignItems: 'center' }}>
                     <Typography variant='h6'>Số điện thoại :</Typography>
-                    <span>m01</span>
+                    <span>{input?.phone}</span>
                   </Box>
                 </Box>
               </Box>

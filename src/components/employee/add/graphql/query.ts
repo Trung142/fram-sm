@@ -16,8 +16,8 @@ export const GET_ROLE = gql`
 `
 
 export const GET_EXAM_DEFAULT_TYPE = gql`
-  query {
-    getExamDefaultType {
+  query getExamDefaultType($input: ExamDefaultTypeFilterInput, $skip: Int, $take: Int) {
+    getExamDefaultType(where: $input, skip: $skip, take: $take, order: { createAt: ASC }) {
       totalCount
       items {
         id

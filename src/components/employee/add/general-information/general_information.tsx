@@ -20,6 +20,7 @@ import { styled } from '@mui/material/styles'
 import Acount_Information from './acount_information'
 import { useQuery } from '@apollo/client'
 import { GET_CLINIC, GET_EXAM_DEFAULT_TYPE, GET_ROLE } from '../graphql/query'
+import Branch_Access from './branch_access'
 // Styled TabList component
 const TabList = styled(MuiTabList)<TabListProps>(({ theme }) => ({
   minHeight: 40,
@@ -40,7 +41,11 @@ type Props = {
   handleaddUser: (key: string, newvalue: any) => void
   input: any
 }
-
+type UserType = {
+  keySearch: string
+  roleId: string
+  clinicId: string
+}
 //thong tin chung
 const General_Information = (props: Props) => {
   const { handleaddUser, input } = props
@@ -49,22 +54,48 @@ const General_Information = (props: Props) => {
   const handleChange = (event: React.SyntheticEvent, val: any) => {
     setTab2(val)
   }
+
+  //search
+  const [searchData, setSearchData] = useState<UserType>({
+    keySearch: '',
+    roleId: '',
+    clinicId: ''
+  })
+  const [queryVariables, setQueryVariables] = useState<any>({
+    input: {}
+  })
   // query
-  const { data: roledata } = useQuery(GET_ROLE)
+  const { data: roledata } = useQuery(GET_ROLE, {
+    variables: queryVariables
+  })
   //khoa
-  const { data: ExamData } = useQuery(GET_EXAM_DEFAULT_TYPE)
+  const { data: ExamData } = useQuery(GET_EXAM_DEFAULT_TYPE, {
+    variables: queryVariables
+  })
   //phong kham
   const { data: PlinicData } = useQuery(GET_CLINIC)
+
   const ExamDefaultType: any = useMemo(() => {
     return ExamData?.getExamDefaultType?.items ?? []
   }, [ExamData])
+  console.log(ExamDefaultType)
   const DATAROLE: any = useMemo(() => {
     return roledata?.getRole?.items ?? []
   }, [roledata])
   const DATAClinict: any = useMemo(() => {
     return PlinicData?.getClinic?.items ?? []
   }, [PlinicData])
-
+  console.log(input)
+  useEffect(() => {
+    const searchUpdate = {
+      input: {
+        clinicId: {
+          contains: input?.clinicId
+        }
+      }
+    }
+    setQueryVariables(searchUpdate)
+  }, [input])
   return (
     <>
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
@@ -75,9 +106,12 @@ const General_Information = (props: Props) => {
           <Grid item xs={2.4}>
             <TextField
               fullWidth
-              label='Họ'
+              label={
+                <Typography sx={{ fontSize: '0.8rem', fontWeight: 600 }}>
+                  Họ <span style={{ color: 'red' }}>*</span>
+                </Typography>
+              }
               placeholder='Nhập Họ'
-              required
               InputLabelProps={{ shrink: true }}
               value={input?.lastName}
               onChange={e => {
@@ -88,11 +122,14 @@ const General_Information = (props: Props) => {
           <Grid item xs={2.4}>
             <TextField
               fullWidth
-              label='Tên'
+              label={
+                <Typography sx={{ fontSize: '0.8rem', fontWeight: 600 }}>
+                  Tên <span style={{ color: 'red' }}>*</span>
+                </Typography>
+              }
               InputLabelProps={{ shrink: true }}
-              required
               placeholder='Nhập Tên'
-              value={input?.firstName}
+              value={input?.fristName}
               onChange={e => handleaddUser('fristName', e.target.value)}
             />
           </Grid>
@@ -108,9 +145,12 @@ const General_Information = (props: Props) => {
               renderInput={params => (
                 <TextField
                   {...params}
-                  label='Loại nhân sự'
+                  label={
+                    <Typography sx={{ fontSize: '0.8rem', fontWeight: 600 }}>
+                      Loại nhân sự<span style={{ color: 'red' }}>*</span>
+                    </Typography>
+                  }
                   placeholder='Chọn loại nhân sự'
-                  required
                   InputLabelProps={{ shrink: true }}
                 />
               )}
@@ -124,8 +164,8 @@ const General_Information = (props: Props) => {
               value={input?.gender}
               onChange={e => handleaddUser('gender', e.target.value)}
             >
-              <FormControlLabel value={1} control={<Radio />} label='Nam' />
-              <FormControlLabel value={2} control={<Radio />} label='Nữ' />
+              <FormControlLabel value='Nam' control={<Radio />} label='Nam' />
+              <FormControlLabel value='Nữ' control={<Radio />} label='Nữ' />
             </RadioGroup>
           </Grid>
           <Grid item xs={2}>
@@ -134,6 +174,7 @@ const General_Information = (props: Props) => {
               control={<Switch />}
               label=''
               value={input?.status}
+              checked={input?.status}
               onChange={(e, newvalue) => handleaddUser('status', newvalue)}
             />
           </Grid>
@@ -151,8 +192,11 @@ const General_Information = (props: Props) => {
           <Grid item xs={3.5}>
             <TextField
               fullWidth
-              label='Email'
-              required
+              label={
+                <Typography sx={{ fontSize: '0.8rem', fontWeight: 600 }}>
+                  Email <span style={{ color: 'red' }}>*</span>
+                </Typography>
+              }
               InputLabelProps={{ shrink: true }}
               type='email'
               placeholder='Nhập Email'
@@ -196,9 +240,9 @@ const General_Information = (props: Props) => {
               openOnFocus
               filterSelectedOptions
               options={ExamDefaultType?.map((option: any) => option.name)}
-              // onChange={(event, newvalue) =>
-              //   handleaddUser('examDefaultTypeId', ExamDefaultType?.find((option: any) => option.name === newvalue)?.id)
-              // }
+              onChange={(event, newvalue) =>
+                handleaddUser('examDefaultTypeId', ExamDefaultType?.find((option: any) => option.name === newvalue)?.id)
+              }
               renderInput={params => (
                 <TextField {...params} label='Khoa' placeholder='Chọn Khoa' InputLabelProps={{ shrink: true }} />
               )}
@@ -307,12 +351,11 @@ const General_Information = (props: Props) => {
               input={input}
             />
           </TabPanel>
-          input
           <TabPanel value='truycapchinhanh'>
-            <Typography>Tab 2</Typography>
+            <Branch_Access />
           </TabPanel>
           <TabPanel value='truycapkho'>
-            <Typography>Tab 3</Typography>
+            <Typography></Typography>
           </TabPanel>
         </TabContext>
       </Box>

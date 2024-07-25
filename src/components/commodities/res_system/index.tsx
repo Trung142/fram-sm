@@ -164,18 +164,14 @@ function ResSystem() {
       field: 'id',
       headerName: 'Mã Hàng',
       minWidth: 200,
-      renderCell: params => (
-            <span>{params.row.id}</span>
-      )
+      renderCell: params => <span>{params.row.id}</span>
     },
     {
       field: 'productName',
       headerName: 'Tên Hàng Hoá',
       minWidth: 200,
       renderCell: param => {
-        return (
-          <span>{param.row.productName}</span>
-        )
+        return <span>{param.row.productName}</span>
       }
     },
     {
@@ -183,7 +179,7 @@ function ResSystem() {
       headerName: 'Nhóm Hàng Hoá',
       minWidth: 150,
       renderCell: params => (
-          <span>{commoditiesDataGroup.find(item => item.id === params.row.commodityGroupId)?.name}</span>
+        <span>{commoditiesDataGroup.find(item => item.id === params.row.commodityGroupId)?.name}</span>
       )
     },
     {
@@ -567,7 +563,7 @@ function ResSystem() {
                     }}
                     initialState={{
                       pagination: {
-                        paginationModel: { page: 0, pageSize: 25 }
+                        paginationModel: { page: 0, pageSize: 2 }
                       }
                     }}
                     pageSizeOptions={[5, 10, 25]}
